@@ -3,7 +3,12 @@
  */
 package twitter;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Filter consists of methods that filter a list of tweets for those matching a
@@ -27,7 +32,15 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> authors = new LinkedList<Tweet>();
+    	
+    		 for (int i=0;i<tweets.size();i++) {
+    	   		 String author = tweets.get(i).getAuthor();
+    	   		 if (author == username) {
+    	   			 authors.add(tweets.get(i));
+    	   		 }
+            }
+    	   	 return authors;
     }
 
     /**
@@ -41,7 +54,16 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> inTimeTweets = new LinkedList<Tweet>();
+    	 for (int i=0;i<tweets.size();i++) {
+	   		 Instant tweetInstant = tweets.get(i).getTimestamp();
+	   		 Instant testStart = timespan.getStart();
+	   		 Instant testEnd = timespan.getEnd();
+	   		 if (tweetInstant.compareTo(testStart)>0 && tweetInstant.compareTo(testEnd)<=0) {
+	   			 inTimeTweets.add(tweets.get(i));
+	   		 }
+        }
+    	return inTimeTweets;
     }
 
     /**
@@ -60,7 +82,16 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> containsTweets = new LinkedList<Tweet>();
+    	for (int i=0;i<tweets.size();i++) {
+	   		 String text = tweets.get(i).getText();
+	   		for (int j=0;j<words.size();j++) {
+	   		 if (text.contains(words.get(j))) {
+	   			 containsTweets.add(tweets.get(i));
+	   			 }
+	   		 }
+       }
+    	return containsTweets;
     }
 
 }
